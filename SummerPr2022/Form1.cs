@@ -69,69 +69,48 @@ namespace SummerPr2022
             return Math.Sqrt(y / (-Math.Cos(y) + Math.PI - 1));
         }
 
-        //private void Eiler(ZedGraphControl Zed_GraphControl)//сам метод ломанных Эйлера
-        //{
-        //    GraphPane my_Pane = Zed_GraphControl.GraphPane;
-        //    PointPairList list = new PointPairList();
-
-        //    n = Convert.ToInt32(textBox1.Text);
-        //    double maxNev, curNev, h, x, y;
-        //    int i;
-        //    maxNev = 0; curNev = maxNev;
-        //    x = 1; y = 0;
-        //    h = (double)(b - a) / n;
-        //    for (i = 0; i < n + 1; i++)
-        //    {
-        //        y += h * f1(x, y);
-        //        x += h;
-
-        //        curNev = Math.Abs((y + h * f1(x, y)) - f2(y));
-
-        //        if (curNev > maxNev)
-        //            maxNev = curNev;
-
-        //        list.Add(x, y);
-        //    }
-        //    PointPairList listMIN = new PointPairList();
-        //    PointPairList listMAX = new PointPairList();
-
-        //    LineItem d1 = my_Pane.AddCurve("Результат метода Эйлера", list, Color.Blue, SymbolType.None);
-        //    textBox2.Text = maxNev.ToString();
-        //    zedGrapgControl1.AxisChange();
-        //    zedGrapgControl1.Invalidate();
-
-        //}
-
         private void Eiler(ZedGraphControl Zed_GraphControl)//сам метод ломанных Эйлера
         {
             GraphPane my_Pane = Zed_GraphControl.GraphPane;
             PointPairList list1 = new PointPairList();
             PointPairList list2 = new PointPairList();
 
-            n = 1000;
-            double maxNev, h, x, y;
-            int i;
-            x = 1; y = Math.PI;
-            h = 0.01;
-            bool b = true;
-            for (i = 0; i < n + 1; i++)
-            {
-                    
+            n = Convert.ToInt32(textBox1.Text);
+            double maxNev = 0, h, x, y, curNev;
 
+            const int maxY = 12;
+
+            x = 1; y = Math.PI;
+            h = 1.0/n;
+            bool b = true;
+            for (;y < maxY;)
+            {
                 y += h;
                 x += h * f1(x, y);
 
+                curNev = 0;
+
                 if ((x >= 1 && x <= 2) && b)
+                {
+                    curNev = Math.Abs(x- f2(y));
                     list1.Add(x, y);
+                }
+                    
                 else if (x >= 1 && x <= 2)
+                {
+                    curNev = Math.Abs(x - f2(y));
                     list2.Add(x, y);
+                } 
                 else
                     b = false;
+                if (curNev > maxNev)
+                    maxNev = curNev;
 
             }
 
             LineItem d1 = my_Pane.AddCurve("Метода Эйлера", list1, Color.Blue, SymbolType.None);
             LineItem d2 = my_Pane.AddCurve("", list2, Color.Blue, SymbolType.None);
+            textBox2.Text = maxNev.ToString();
             zedGrapgControl1.AxisChange();
             zedGrapgControl1.Invalidate();
         }
