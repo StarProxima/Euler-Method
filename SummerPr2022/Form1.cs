@@ -28,7 +28,7 @@ namespace SummerPr2022
             zedGrapgControl1.Size = new Size(500, 500);
             Controls.Add(zedGrapgControl1);
             GraphPane myPlane = zedGrapgControl1.GraphPane;
-            myPlane.Title.Text = "Результат:";
+            myPlane.Title.Text = "Графики:";
             myPlane.XAxis.Title.Text = "X";
             myPlane.YAxis.Title.Text = "Y";
         }
@@ -88,7 +88,7 @@ namespace SummerPr2022
 
             x = 1; y = Math.PI;
 
-            h = 1.0/n;
+            h = 7.46/n;
 
             bool b = true;
 
